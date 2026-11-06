@@ -5,7 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>TEAS 7 Practice Exams</title>
 <meta name="description" content="Three free TEAS 7 practice exams (183 original questions) with timed sections, explanations, saved progress, and weak-topic practice.">
-<script>(function(){var t="light";try{t=localStorage.getItem("teas7_theme")||"light"}catch(e){}if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)})()</script>
+<meta name="theme-color" content="#f6f2fc">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="TEAS Practice">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="apple-touch-icon.png">
+<script>(function(){var t="light";try{t=localStorage.getItem("teas7_theme")||"light"}catch(e){}if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);var dark=t==="dark"||(t!=="light"&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches);var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",dark?"#1f1a2b":"#f6f2fc")})()</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Literata:opsz,wght@7..72,400;7..72,600;7..72,700&family=JetBrains+Mono:wght@500&display=swap">
@@ -32,6 +39,8 @@
 .themeswitch button{min-height:40px;padding:4px 12px;border:none;border-radius:999px;background:transparent;font-size:.88rem;color:var(--muted)}
 .themeswitch button.on{background:var(--accent-soft);color:var(--ink);font-weight:700}
 *{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+button,input,label{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55}
 .wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 64px}
 h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.2;margin:0}
@@ -97,11 +106,14 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .grid button.current{outline:2px solid var(--ink);outline-offset:1px}
 .qlayout{display:grid;grid-template-columns:minmax(0,1fr);gap:20px}
 .qlayout.with-passage{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
-@media (max-width:860px){.qlayout.with-passage{grid-template-columns:1fr}}
+@media (max-width:759px){.qlayout.with-passage{grid-template-columns:1fr}}
 .passage{font-family:var(--f-display);font-size:1rem;line-height:1.7;max-height:70vh;overflow:auto}
 .passage p+p{margin-top:12px}
 .passage table{font-family:var(--f-body)}
 .passage ol{padding-left:22px;margin:0}
+/* Short screens (phone in landscape): let the exam header scroll away and the passage flow with the page.
+   Must stay after the base .passage rules so it wins the cascade. */
+@media (max-height:520px){.examhead{position:static}.passage{max-height:none}}
 .qtext{font-size:1.08rem}
 .qtype{display:inline-block;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
 .opts{display:flex;flex-direction:column;gap:10px;margin-top:4px}
@@ -119,7 +131,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .orditem button{min-height:36px;min-width:40px;padding:4px 8px}
 /* hot spot */
 .hotwords{font-family:var(--f-display);font-size:1.2rem;line-height:2.4;padding:16px;border:1px dashed var(--line);border-radius:10px;background:var(--surface)}
-.hotwords button{font:inherit;padding:2px 6px;min-height:0;border:1px solid transparent;background:transparent;border-radius:6px}
+.hotwords button{font:inherit;padding:4px 8px;min-height:44px;min-width:40px;border:1px solid transparent;background:transparent;border-radius:6px}
 .hotwords button:hover{border-color:var(--accent)}
 .hotwords button.sel{background:var(--accent-soft);border-color:var(--accent);font-weight:700}
 .hotbars{display:flex;align-items:flex-end;gap:10px;height:240px;padding:16px 12px 0;border:1px dashed var(--line);border-radius:10px;background:var(--surface);overflow-x:auto}
@@ -1051,7 +1063,7 @@ function buildWeakIds(){
 /* ---------- Home ---------- */
 function progressPanel(){
   const h=hist();
-  if(!Object.keys(h.latest).some(id=>BYID[id])) return `<div class="panel stack"><h2>Your progress</h2><p class="muted">Nothing finished yet. Finish any section and your scores, strongest and weakest topics, and a personal practice set will show up here.</p><p class="muted" style="font-size:.88rem">Progress is saved in this browser on this device and is never uploaded.</p></div>`;
+  if(!Object.keys(h.latest).some(id=>BYID[id])) return `<div class="panel stack"><h2>Your progress</h2><p class="muted">Nothing finished yet. Finish any section and your scores, strongest and weakest topics, and a personal practice set will show up here.</p><p class="muted" style="font-size:.88rem">Progress is saved in this browser on this device and is never uploaded.</p><p class="muted" style="font-size:.88rem"><b>On iPhone or iPad:</b> before you start, tap Share (or •••, then Share) and choose <b>Add to Home Screen</b>, then always open the site from that icon. It opens like an app, and Safari is less likely to clear your progress. Progress saved in Safari doesn't carry over to the Home Screen app.</p></div>`;
   const w=weakTopics();
   const topicRows=w.rows.map(r=>{const p=Math.round(100*r.p);const tn=topicName(r.k);return `<tr><td>${tn.sub}<div class="muted" style="font-size:.8rem">${SECTIONS[tn.sec].name}</div></td><td class="n">${r.c}/${r.n}</td><td class="n">${p}%</td><td style="width:32%"><div class="bar"><span style="width:${p}%;${p<60?"background:var(--bad)":p<80?"background:var(--flag)":""}"></span></div></td></tr>`}).join("");
   const nWeak=buildWeakIds().length;
@@ -1067,7 +1079,7 @@ function progressPanel(){
     </div>
     <details><summary>All topics (${w.rows.length})</summary><div class="tablebox" style="margin-top:8px"><table><thead><tr><th>Topic</th><th class="n">Latest</th><th class="n">%</th><th></th></tr></thead><tbody>${topicRows}</tbody></table></div><p class="muted" style="font-size:.82rem;margin-top:6px">Each question counts once, using your most recent answer to it.</p></details>
     <details><summary>Recent attempts</summary><div class="tablebox" style="margin-top:8px"><table><thead><tr><th>When</th><th>What</th><th class="n">Score</th><th class="n">%</th></tr></thead><tbody>${recent}</tbody></table></div></details>
-    <div class="row" style="justify-content:space-between"><p class="muted" style="font-size:.85rem">Saved in this browser on this device only.</p>${S.confirmReset?`<span class="row" style="gap:8px"><span style="font-size:.9rem">Erase all progress?</span><button id="resetYes" class="danger">Erase</button><button id="resetNo">Cancel</button></span>`:`<button id="resetBtn" class="ghost">Reset progress</button>`}</div>
+    <div class="row" style="justify-content:space-between"><p class="muted" style="font-size:.85rem">Saved in this browser on this device only. The Home Screen app and Safari keep separate progress, so stick with one.</p>${S.confirmReset?`<span class="row" style="gap:8px"><span style="font-size:.9rem">Erase all progress?</span><button id="resetYes" class="danger">Erase</button><button id="resetNo">Cancel</button></span>`:`<button id="resetBtn" class="ghost">Reset progress</button>`}</div>
   </div>`;
 }
 const KEY_THEME="teas7_theme";
@@ -1267,6 +1279,8 @@ function renderExam(){
   updateTimerEl(document.getElementById("timer"));
   const ni=document.getElementById("num-"+q.id);
   if(ni){ni.addEventListener("input",e=>{S.answers[q.id]=e.target.value;refreshGridOnly();saveRun()});}
+  const gridEl=document.querySelector(".grid"), curBtn=gridEl&&gridEl.querySelector(".current");
+  if(curBtn&&gridEl.scrollWidth>gridEl.clientWidth){gridEl.scrollLeft=Math.max(0,curBtn.offsetLeft-gridEl.offsetLeft-gridEl.clientWidth/2+curBtn.offsetWidth/2)}
   if(S.focus){const el=document.querySelector(S.focus); S.focus=null; if(el){try{el.focus({preventScroll:S.focusNoScroll!==false})}catch(e){el.focus()}}}
   saveRun();
 }
@@ -1354,6 +1368,7 @@ app.addEventListener("click",e=>{
       case "themeLight": case "themeDark": case "themeAuto": {
         const v=t.id.slice(5).toLowerCase(); try{localStorage.setItem(KEY_THEME,v)}catch(e){}
         if(v==="auto") document.documentElement.removeAttribute("data-theme"); else document.documentElement.setAttribute("data-theme",v);
+        {const dark=v==="dark"||(v==="auto"&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches); const m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute("content",dark?"#1f1a2b":"#f6f2fc");}
         renderHome(); const b=document.getElementById(t.id); if(b) b.focus(); return; }
       case "resumeBtn": resumeRun(); return;
       case "discardBtn": drop(KEY_RUN); renderHome(); return;
@@ -1394,6 +1409,14 @@ app.addEventListener("click",e=>{
   }
 });
 app.addEventListener("change",e=>{if(e.target.id==="timedToggle") S.timed=e.target.checked});
+
+/* In Auto theme, keep the browser/status bar color in step when the device switches light/dark. */
+try{
+  const mq=window.matchMedia("(prefers-color-scheme: dark)");
+  const syncBar=()=>{let t="light"; try{t=localStorage.getItem(KEY_THEME)||"light"}catch(e){}
+    if(t!=="light"&&t!=="dark"){const m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute("content",mq.matches?"#1f1a2b":"#f6f2fc")}};
+  if(mq.addEventListener) mq.addEventListener("change",syncBar); else if(mq.addListener) mq.addListener(syncBar);
+}catch(e){}
 
 try{ renderHome(); }
 catch(err){
