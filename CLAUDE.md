@@ -2,6 +2,16 @@
 
 A free, single-page study site with three ATI TEAS 7 practice exams and 183 original questions. Everything lives in `index.html` (plain HTML, CSS and JavaScript, no build step); progress is saved only in the browser's `localStorage`. Repo: github.com/yoseple/teas-practice (public). Live: https://yoseple.github.io/teas-practice/ (GitHub Pages deploys from `main`). See `README.md` for features and accuracy notes.
 
+## Project manager (standing rule)
+
+The project's PM is the `project-manager` agent: `.claude\agents\project-manager.md` (tailored from `~/.claude/agents/project-manager.md`). It reports to the owner (the Supervisor) in the fixed PM REPORT format.
+
+- **Use it** at the start of any multi-step task, when work finishes, when something is blocked, and whenever the owner asks for status.
+- **It owns the vault Task Board:** `C:\Users\yosep\AI-Software-Factory\00-Obsidian-Vault\07-Build-Tickets\TEAS Practice\Task Board.md`. Every open task has exactly one owner from the Dashboard's **Team & Roles** roster.
+- **Every task ends with a PM report.** The PM updates this project's row in `00-Obsidian-Vault\00-Supervisor\Portfolio Board.md` and adds the report to `00-Supervisor\PM Reports\<YYYY-MM>.md`.
+
+If the vault path doesn't exist on this machine (someone else's clone), skip this section.
+
 ## Obsidian brain (standing rule)
 
 The project's persistent brain lives in the owner's master Obsidian vault:
